@@ -20,56 +20,65 @@
       const question = document.querySelector(".question");
       const body = document.querySelector("body");
       const hearts = document.querySelector(".hearts");
-      // Improved No button movement
+
+      let clickCount = 0;
+      let currentSize = 2.5;
+      let timeoutIds = [];
+
+      // No button movement
       noBtn.addEventListener("mouseover", function () {
         const rect = this.getBoundingClientRect();
         const buttonWidth = rect.width;
         const buttonHeight = rect.height;
-
-        // Calculate safe movement boundaries
         const maxX = window.innerWidth - buttonWidth;
         const maxY = window.innerHeight - buttonHeight;
 
-        // Get current position percentages
-        const currentX = (rect.left / window.innerWidth) * 100;
-        const currentY = (rect.top / window.innerHeight) * 100;
-
-        // Generate new position ensuring it stays within viewport
         let newX, newY;
         do {
           newX = Math.random() * maxX;
           newY = Math.random() * maxY;
         } while (Math.abs(newX - rect.left) < 50 || Math.abs(newY - rect.top) < 50);
 
-        // Apply smooth transition with boundary checks
         this.style.transform = `translate(
                 ${Math.min(maxX, Math.max(0, newX - rect.left))}px,
                 ${Math.min(maxY, Math.max(0, newY - rect.top))}px
             )`;
       });
-      let currentSize = 2.5; // Initial font size in em
 
+      // Yes button functionality
       yesBtn.addEventListener("click", function () {
-        // Increase font size permanently
+        if (clickCount >= 5) return;
+
+        clickCount++;
         currentSize += 0.5;
+
         question.style.fontSize = `${currentSize}em`;
 
-        // Add celebration effects
         question.classList.add("celebrate");
         body.classList.add("lovely");
-
-        // Create floating hearts
         createHearts();
 
-        // Change text temporarily
-        setTimeout(() => {
+        if (clickCount === 5) {
+          // Clear all pending timeouts
+          timeoutIds.forEach((id) => clearTimeout(id));
+          timeoutIds = [];
+
+          question.textContent = "💑yaaaaay!💑";
+          body.classList.remove("lovely");
+          body.classList.add("success-theme");
+          return;
+        }
+
+        const id2 = setTimeout(() => {
           question.textContent = "Again Again! ❤️";
-          setTimeout(() => {
+          const id3 = setTimeout(() => {
             question.textContent = "Will you be my Valentine?";
             body.classList.remove("lovely");
             question.classList.remove("celebrate");
-          }, 1000);
+          }, 500);
+          timeoutIds.push(id3);
         }, 0);
+        timeoutIds.push(id2);
       });
 
       function createHearts() {
@@ -81,12 +90,14 @@
           heart.style.animationDelay = Math.random() * 2 + "s";
           hearts.appendChild(heart);
 
-          // Remove heart after animation
-          setTimeout(() => {
-            heart.remove();
-          }, 3000);
+          setTimeout(() => heart.remove(), 3000);
         }
       }
+
+      // Cleanup timeouts if needed
+      window.addEventListener("beforeunload", () => {
+        timeoutIds.forEach((id) => clearTimeout(id));
+      });
     </script>
   </body>
 </html>
