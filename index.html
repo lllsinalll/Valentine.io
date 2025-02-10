@@ -3,53 +3,90 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Will You Be My Valentine?</title>
+    <title>Valentine's Day ❤️</title>
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <div class="container">
-      <h1 id="message">Will you be my Valentine? 💖</h1>
-      <div class="buttons">
-        <button id="yesBtn">YES!</button>
-        <button id="noBtn">No</button>
-      </div>
-      <div class="hearts" id="hearts"></div>
+    <h1 class="question">Will you be my Valentine?</h1>
+    <div class="buttons">
+      <button id="yesBtn">Yes! ❤️</button>
+      <button id="noBtn">No</button>
     </div>
+    <div class="hearts"></div>
 
     <script>
       const yesBtn = document.getElementById("yesBtn");
       const noBtn = document.getElementById("noBtn");
-      const hearts = document.getElementById("hearts");
-      let scale = 1;
+      const question = document.querySelector(".question");
+      const body = document.querySelector("body");
+      const hearts = document.querySelector(".hearts");
+      // Improved No button movement
+      noBtn.addEventListener("mouseover", function () {
+        const rect = this.getBoundingClientRect();
+        const buttonWidth = rect.width;
+        const buttonHeight = rect.height;
 
-      yesBtn.addEventListener("click", () => {
-        scale += 0.3;
-        yesBtn.style.transform = `scale(${scale})`;
-        hearts.innerHTML += "💖";
+        // Calculate safe movement boundaries
+        const maxX = window.innerWidth - buttonWidth;
+        const maxY = window.innerHeight - buttonHeight;
+
+        // Get current position percentages
+        const currentX = (rect.left / window.innerWidth) * 100;
+        const currentY = (rect.top / window.innerHeight) * 100;
+
+        // Generate new position ensuring it stays within viewport
+        let newX, newY;
+        do {
+          newX = Math.random() * maxX;
+          newY = Math.random() * maxY;
+        } while (Math.abs(newX - rect.left) < 50 || Math.abs(newY - rect.top) < 50);
+
+        // Apply smooth transition with boundary checks
+        this.style.transform = `translate(
+                ${Math.min(maxX, Math.max(0, newX - rect.left))}px,
+                ${Math.min(maxY, Math.max(0, newY - rect.top))}px
+            )`;
       });
+      let currentSize = 2.5; // Initial font size in em
 
-      noBtn.addEventListener("mouseover", () => {
-        const containerRect = document
-          .querySelector(".container")
-          .getBoundingClientRect();
-        const buttonRect = noBtn.getBoundingClientRect();
+      yesBtn.addEventListener("click", function () {
+        // Increase font size permanently
+        currentSize += 0.5;
+        question.style.fontSize = `${currentSize}em`;
 
-        const maxX = containerRect.width - buttonRect.width;
-        const maxY = containerRect.height - buttonRect.height;
+        // Add celebration effects
+        question.classList.add("celebrate");
+        body.classList.add("lovely");
 
-        const randomX = Math.random() * maxX;
-        const randomY = Math.random() * maxY;
+        // Create floating hearts
+        createHearts();
 
-        noBtn.style.position = "absolute";
-        noBtn.style.left = `${randomX}px`;
-        noBtn.style.top = `${randomY}px`;
-      });
-
-      noBtn.addEventListener("mouseout", () => {
+        // Change text temporarily
         setTimeout(() => {
-          noBtn.style.position = "static";
-        }, 1000);
+          question.textContent = "Again Again! ❤️";
+          setTimeout(() => {
+            question.textContent = "Will you be my Valentine?";
+            body.classList.remove("lovely");
+            question.classList.remove("celebrate");
+          }, 1000);
+        }, 0);
       });
+
+      function createHearts() {
+        for (let i = 0; i < 20; i++) {
+          const heart = document.createElement("div");
+          heart.className = "heart";
+          heart.innerHTML = "❤️";
+          heart.style.left = Math.random() * 100 + "vw";
+          heart.style.animationDelay = Math.random() * 2 + "s";
+          hearts.appendChild(heart);
+
+          // Remove heart after animation
+          setTimeout(() => {
+            heart.remove();
+          }, 3000);
+        }
+      }
     </script>
   </body>
 </html>
