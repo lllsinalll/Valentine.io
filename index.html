@@ -19,19 +19,13 @@
     <script>
       const yesBtn = document.getElementById("yesBtn");
       const noBtn = document.getElementById("noBtn");
-      const message = document.getElementById("message");
       const hearts = document.getElementById("hearts");
       let scale = 1;
 
       yesBtn.addEventListener("click", () => {
-        scale += 0.2;
-        message.style.transform = `scale(${scale})`;
+        scale += 0.3;
+        yesBtn.style.transform = `scale(${scale})`;
         hearts.innerHTML += "💖";
-
-        // Reset animation
-        setTimeout(() => {
-          message.style.transform = `scale(${scale})`;
-        }, 300);
       });
 
       noBtn.addEventListener("mouseover", () => {
@@ -51,6 +45,11 @@
         noBtn.style.top = `${randomY}px`;
       });
 
+      noBtn.addEventListener("mouseout", () => {
+        setTimeout(() => {
+          noBtn.style.position = "static";
+        }, 1000);
+      });
     </script>
   </body>
 </html>
