@@ -8,7 +8,7 @@ body {
   background-color: #ffe6f2;
   font-family: "Arial", sans-serif;
   transition: all 0.5s ease;
-  overflow: hidden; /* Prevent scrolling */
+  overflow: hidden;
 }
 
 .question {
@@ -43,7 +43,7 @@ button {
   background-color: #cccccc;
   color: #666666;
   position: relative;
-  transition: all 0.3s ease;
+  transition: transform 0.3s ease;
 }
 
 .celebrate {
@@ -64,6 +64,10 @@ button {
 
 .lovely {
   background-color: #ff99c2;
+}
+
+.success-theme {
+  background-color: #b8f7d4 !important;
 }
 
 .hearts {
@@ -91,3 +95,4 @@ button {
     opacity: 0;
   }
 }
+
