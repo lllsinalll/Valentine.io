@@ -1,0 +1,56 @@
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+  background-color: #ffe6f2;
+  font-family: "Arial", sans-serif;
+  transition: background-color 0.3s;
+}
+
+.container {
+  text-align: center;
+  padding: 2rem;
+  background-color: white;
+  border-radius: 15px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  color: #ff4081;
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+  transition: transform 0.3s;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+button {
+  padding: 15px 30px;
+  border: none;
+  border-radius: 25px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+#yesBtn {
+  background-color: #ff4081;
+  color: white;
+}
+
+#noBtn {
+  background-color: #cccccc;
+  color: white;
+  position: relative;
+}
+
+.hearts {
+  margin-top: 20px;
+  font-size: 2rem;
+}

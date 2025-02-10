@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Will You Be My Valentine?</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1 id="message">Will you be my Valentine? 💖</h1>
+      <div class="buttons">
+        <button id="yesBtn">YES!</button>
+        <button id="noBtn">No</button>
+      </div>
+      <div class="hearts" id="hearts"></div>
+    </div>
+
+    <script>
+      const yesBtn = document.getElementById("yesBtn");
+      const noBtn = document.getElementById("noBtn");
+      const message = document.getElementById("message");
+      const hearts = document.getElementById("hearts");
+      let scale = 1;
+
+      yesBtn.addEventListener("click", () => {
+        scale += 0.2;
+        message.style.transform = `scale(${scale})`;
+        hearts.innerHTML += "💖";
+
+        // Reset animation
+        setTimeout(() => {
+          message.style.transform = `scale(${scale})`;
+        }, 300);
+      });
+
+      noBtn.addEventListener("mouseover", () => {
+        const containerRect = document
+          .querySelector(".container")
+          .getBoundingClientRect();
+        const buttonRect = noBtn.getBoundingClientRect();
+
+        const maxX = containerRect.width - buttonRect.width;
+        const maxY = containerRect.height - buttonRect.height;
+
+        const randomX = Math.random() * maxX;
+        const randomY = Math.random() * maxY;
+
+        noBtn.style.position = "absolute";
+        noBtn.style.left = `${randomX}px`;
+        noBtn.style.top = `${randomY}px`;
+      });
+
+      // Optional: Reset button position when mouse leaves
+      noBtn.addEventListener("mouseout", () => {
+        setTimeout(() => {
+          noBtn.style.position = "static";
+        }, 1000);
+      });
+    </script>
+  </body>
+</html>
